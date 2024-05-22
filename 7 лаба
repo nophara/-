@@ -1,0 +1,68 @@
+from PIL import Image
+import os
+
+
+# 7.1
+def image_info(image_path):
+    image = Image.open('D:\UserFolders\Desktop\"pepel.jpg"')
+    print(f"Размер изображения: {image.size}")
+    print(f"Формат изображения: {image.format}")
+    print(f"Цветовая модель: {image.mode}")
+
+
+# 7.2
+def process_image(image_path):
+    image = Image.open('D:\UserFolders\Desktop\"pepel.jpg"')
+
+    # Уменьшение изображения в три раза
+    resized_image = image.resize((image.width // 3, image.height // 3))
+    resized_image.save("resized_" + os.path.basename(image_path))
+
+    # Горизонтальное отражение
+    mirrored_horizontal = image.transpose(Image.FLIP_LEFT_RIGHT)
+    mirrored_horizontal.save("mirrored_horizontal_" + os.path.basename(image_path))
+
+    # Вертикальное отражение
+    mirrored_vertical = image.transpose(Image.FLIP_TOP_BOTTOM)
+    mirrored_vertical.save("mirrored_vertical_" + os.path.basename(image_path))
+
+
+# 7.3
+def apply_filter_to_images(folder_path, filter_name):
+    output_folder = "filtered_images"
+    os.makedirs(output_folder, exist_ok=True)
+
+    for filename in os.listdir(folder_path):
+        if filename.endswith(".jpg"):
+            image = Image.open(os.path.join(folder_path, filename))
+            # Применение фильтра (например, контур)
+            filtered_image = image.filter(filter_name)
+            filtered_image.save(os.path.join(output_folder, "filtered_" + filename))
+
+
+# 7.4
+def add_watermark_to_images(folder_path, watermark_path):
+    output_folder = "watermarked_images"
+    os.makedirs(output_folder, exist_ok=True)
+    watermark = Image.open(watermark_path)
+
+    for filename in os.listdir(folder_path):
+        if filename.endswith(".jpg"):
+            image = Image.open(os.path.join(folder_path, filename))
+            image.paste(watermark, (0, 0), watermark)
+            image.save(os.path.join(output_folder, "watermarked_" + filename))
+
+
+# Примеры использования функций:
+
+# 7.1
+image_info("pepel.jpg")
+
+# 7.2
+process_image("pepel.jpg")
+
+# 7.3
+apply_filter_to_images("images_folder", ImageFilter.CONTOUR)
+
+# 7.4
+add_watermark_to_images("images_folder", "watermark.png")

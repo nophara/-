@@ -1,0 +1,47 @@
+import os
+from PIL import Image
+# 9.1
+input_folder = "images"
+output_folder = "processed_images"
+
+os.makedirs(output_folder, exist_ok=True)
+
+for filename in os.listdir(input_folder):
+    if filename.endswith(".jpg") or filename.endswith(".png"):
+        image_path = os.path.join(input_folder, filename)
+        output_path = os.path.join(output_folder, filename)
+
+        with Image.open(image_path) as img:
+            img.save(output_path)
+
+print("Изображения обработаны успешно!")
+# 9.2
+input_folder = "images"
+output_folder = "processed_images"
+os.makedirs(output_folder, exist_ok=True)
+
+for filename in os.listdir(input_folder):
+    if filename.lower().endswith(('.jpg', '.png')):
+        image_path = os.path.join(input_folder, filename)
+        output_path = os.path.join(output_folder, filename)
+
+        with Image.open(image_path) as img:
+            
+            img.save(output_path)
+
+print("Изображения обработаны успешно!")
+# 9.3
+total_cost = 0
+
+with open('products.csv', 'r') as file:
+    reader = csv.reader(file)
+    next(reader) 
+
+    print("Нужно купить:")
+    for row in reader:
+        продукт, количество, цена = row
+        cost = int(количество) * int(цена)
+        total_cost += cost
+        print(f"{продукт} - {количество} шт. за {цена} руб.")
+
+print(f"Итоговая сумма: {total_cost} руб.")
